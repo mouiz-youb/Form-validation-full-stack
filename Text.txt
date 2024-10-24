@@ -1,0 +1,33 @@
+app.post("/articles", async (req, res) => {
+  const newArticle = new Article();
+  newArticle.title = req.body.title;
+  newArticle.body = req.body.des;
+  newArticle.numberOfLike = req.body.numberOfLike;
+  await newArticle.save();
+  res.json(newArticle);
+  // res.send(`the new article has been stored `);
+});
+app.get("/articles", async (req, res) => {
+  const articles = await Article.find();
+  res.json(articles);
+});
+app.get("/articles/:articleId", async (req, res) => {
+  const id = req.params.articleId;
+  try {
+    const article = await Article.findById(id);
+    res.json(article);
+  } catch (error) {
+    console.log(`the error  while reading id `, id);
+    return res.send(error);
+  }
+});
+app.delete("/articles/:articleId", async (req, res) => {
+  const id = req.params.articleId;
+  try {
+    const article = await Article.findByIdAndDelete(id);
+    res.json(article);
+  } catch (error) {
+    console.log(`the error  while reading id `, id);
+    return res.send(error);
+  }
+});
