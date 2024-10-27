@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 import "../App.css";
 function Singup() {
   const [username, setUsername] = useState("");
@@ -9,7 +10,11 @@ function Singup() {
   const handelSubmition = (e) => {
     e.preventDefault();
     axios
-      .post("/register", { username, email, password })
+      .post("/http://localhost:3002/Registration", {
+        username,
+        email,
+        password,
+      })
       .then((response) => console.log(response))
       .catch((error) => console.log(error));
   };
