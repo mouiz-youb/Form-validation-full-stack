@@ -1,16 +1,44 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 function Login() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPasszord] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const handelSubmition = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3002/login", {
+        email,
+        password,
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data === "seccess") {
+          navigate("/home");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
   return (
-    <form action="">
+    <form action="" onSubmit={handelSubmition}>
       <legend>Log In</legend>
       <div className="input-container">
-        <input type="email" placeholder="Enter the email" />
-        <input type="password" placeholder="Enter hte password " />
+        <input
+          type="email"
+          placeholder="Enter the email"
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        />
+        <input
+          type="password"
+          placeholder="Enter hte password "
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        />
       </div>
       <div className="btn-submit">
         <button type="submit">login</button>
